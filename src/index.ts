@@ -1,13 +1,9 @@
-interface SignUpOptions {
-  name: string;
-  ign: string;
-  discordName: string;
-}
+import { SignUpOptions } from "./auth";
+import { signIn, signUp, signOut } from "./auth";
 
 export enum AUTH_STATUS {
   SIGNED_IN,
   SIGNED_OUT,
-  LOADING,
   ERROR,
 }
 export enum TEAM_STATUS {
@@ -33,22 +29,52 @@ export class User {
     volitility: 0,
   };
   private profile: Profile = {
-    uid: "",
     ign: "",
     teamId: "",
     discordName: "",
+    email: "",
   };
 
   uid: string = "";
   profileStatus: PROFILE_STATUS = PROFILE_STATUS.LOADNIG;
   teamStatus: TEAM_STATUS = TEAM_STATUS.LOADING;
-  authStatus: AUTH_STATUS = AUTH_STATUS.LOADING;
+  authStatus: AUTH_STATUS = AUTH_STATUS.SIGNED_OUT;
 
-  async signIn(email: string, password: string) {}
-  async signUp(email: string, password: string, options: SignUpOptions) {}
-  async signOut() {}
+  async signIn(email: string, password: string): Promise<AUTH_STATUS> {
+    await signIn(email, password)
+      .then((user) => {
+        this.uid = user.uid;
+        this.authStatus = AUTH_STATUS.SIGNED_IN;
+      })
+      .catch((error) => {
+        console.log(error);
+        this.authStatus = AUTH_STATUS.SIGNED_OUT;
+      });
+
+    return Promise.resolve(this.authStatus);
+  }
+  async signUp(email: string, password: string, options: SignUpOptions) {
+    await signUp(email, password, options)
+      .then((user) => {
+        this.uid = user.uid;
+        this.authStatus = AUTH_STATUS.SIGNED_IN;
+      })
+      .catch((error) => {
+        console.log(error);
+        this.authStatus = AUTH_STATUS.SIGNED_OUT;
+      });
+  }
+  async signOut() {
+    await signOut()
+      .then(() => {
+        this.uid = "";
+        this.authStatus = AUTH_STATUS.SIGNED_OUT;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
   async deleteUser() {}
-  addAuthStateListener(callback: (authStatus: AUTH_STATUS) => void) {}
 
   async getProfile() {}
   async updateProfile() {}
@@ -75,9 +101,9 @@ export class Agent {
 }
 
 export interface Profile {
-  uid: string;
   ign: string;
   teamId: string;
+  email: string;
   discordName: string;
 }
 
