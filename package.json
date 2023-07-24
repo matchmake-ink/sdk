@@ -1,6 +1,6 @@
 {
   "name": "matchmake-ink-sdk",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "The node package that serves as a wrapper for the backend to matchmake.ink",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",

@@ -6,3 +6,4 @@ tsconfig.json
 .gitignore
 README.md
 vitest.config.ts
+publish.sh
