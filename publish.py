@@ -39,17 +39,31 @@ def main():
         package['version'] = '.'.join([str(i) for i in version])
         json.dump(package, f, indent=2)
 
-    tag('.'.join([str(i) for i in version]))
+    version_string = '.'.join([str(i) for i in version])
+
+    commit(version_string)
+    tag(version_string)
+    push()
     publish()
 
 
-def tag(version_string):
+def tag(version):
     subprocess.run(
-        ['git', 'tag', '-a' + f"v{version_string}", '-m' + f"Release {version_string}"])
+        ['git', 'tag', '-a' + f"v{version}", '-m' + f"Release {version}"])
+
+
+def commit(version):
+    subprocess.run(['git', 'add', '.'])
+    subprocess.run(
+        ['git', 'commit', '-m' + f"Release {version}"])
 
 
 def publish():
     subprocess.run(['npm', 'publish'])
+
+
+def push():
+    subprocess.run(['git', 'push'])
 
 
 if __name__ == "__main__":
