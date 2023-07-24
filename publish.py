@@ -42,7 +42,6 @@ def main():
     version_string = '.'.join([str(i) for i in version])
 
     commit(version_string)
-    tag(version_string)
     push()
     publish()
 
