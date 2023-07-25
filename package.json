@@ -1,6 +1,6 @@
 {
   "name": "matchmake-ink-sdk",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "The node package that serves as a wrapper for the backend to matchmake.ink",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -9,7 +9,7 @@
     "build": "rollup -c",
     "test": "vitest"
   },
-  "type":"commonjs",
+  "type": "commonjs",
   "keywords": [],
   "author": "firesquid",
   "license": "GPL3.0",
